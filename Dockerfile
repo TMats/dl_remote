@@ -24,13 +24,53 @@ RUN curl https://pyenv.run | zsh && \
     echo 'eval "$(pyenv init -)"' >> /root/.zshrc && \
     echo 'eval "$(pyenv virtualenv-init -)"' >> /root/.zshrc
 RUN source /root/.zshrc && \
-    pyenv install 3.7.4 && \
-    pyenv global 3.7.4
+    pyenv install 3.6.8 && \
+    pyenv global 3.6.8
 
 # X window, options ----------------
 RUN apt-get install -y vim xvfb x11vnc python-opengl
 RUN source /root/.zshrc && \
     pip install setuptools jupyterlab
+
+# icewm
+RUN apt-get install -y icewm
+RUN export DISPLAY=:0
+RUN icewm-session &
+
+# mujoco
+RUN apt-get install -y \
+    curl \
+    git \
+    libgl1-mesa-dev \
+    libgl1-mesa-glx \
+    libglew-dev \
+    libosmesa6-dev \
+    software-properties-common \
+    net-tools \
+    unzip \
+    vim \
+    virtualenv \
+    wget \
+    xpra \
+    xserver-xorg-dev
+RUN curl -o /usr/local/bin/patchelf https://s3-us-west-2.amazonaws.com/openai-sci-artifacts/manual-builds/patchelf_0.9_amd64.elf \
+    && chmod +x /usr/local/bin/patchelf
+RUN echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/root/.mujoco/mjpro131/bin' >> /root/.zshrc
+
+# Additional setup for Tecnets
+COPY setups/ /tmp/setups/
+# Additional setup for Tecnets
+COPY setups/ /root/setups/
+WORKDIR /root/setups/
+RUN source /root/.zshrc && \
+    pip install -r requirements.txt
+
+WORKDIR /root/workspace
+RUN git clone https://github.com/TMats/gym.git
+WORKDIR /root/workspace/gym
+RUN git checkout mil-improved && \
+    source /root/.zshrc && \
+    pip install -e '.[mujoco]'
 
 WORKDIR /root
 CMD ["zsh"]
