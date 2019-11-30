@@ -30,12 +30,11 @@ RUN source /root/.zshrc && \
 # X window, options ----------------
 RUN apt-get install -y vim xvfb x11vnc python-opengl
 RUN source /root/.zshrc && \
+    pip install --upgrade pip && \
     pip install setuptools jupyterlab
 
 # icewm
 RUN apt-get install -y icewm
-RUN export DISPLAY=:0
-RUN icewm-session &
 
 # mujoco
 RUN apt-get install -y \
@@ -57,8 +56,6 @@ RUN curl -o /usr/local/bin/patchelf https://s3-us-west-2.amazonaws.com/openai-sc
     && chmod +x /usr/local/bin/patchelf
 RUN echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/root/.mujoco/mjpro131/bin' >> /root/.zshrc
 
-# Additional setup for Tecnets
-COPY setups/ /tmp/setups/
 # Additional setup for Tecnets
 COPY setups/ /root/setups/
 WORKDIR /root/setups/
