@@ -1,3 +1,4 @@
+pip install -U pip
 pip install -U setuptools
 pip install -r requirements.txt
 Xvfb :0 -screen 0 1400x900x24 &
