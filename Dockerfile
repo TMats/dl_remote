@@ -24,8 +24,8 @@ RUN curl https://pyenv.run | zsh && \
     echo 'eval "$(pyenv init -)"' >> /root/.zshrc && \
     echo 'eval "$(pyenv virtualenv-init -)"' >> /root/.zshrc
 RUN source /root/.zshrc && \
-    pyenv install 3.6.8 && \
-    pyenv global 3.6.8
+    pyenv install 3.7.4 && \
+    pyenv global 3.7.4
 
 # X window, options ----------------
 RUN apt-get install -y vim xvfb x11vnc python-opengl
