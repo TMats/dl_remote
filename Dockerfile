@@ -4,7 +4,7 @@
 # [1] https://github.com/robbyrussell/oh-my-zsh
 # [2] https://github.com/pyenv/pyenv/wiki/common-build-problems
 
-FROM tobycheese/cuda:9.0-cudnn7-devel-ubuntu18.04
+FROM nvidia/cudagl:10.0-devel-ubuntu18.04
 ENV DEBIAN_FRONTEND=noninteractive
 
 # zsh,[1] ----------------
@@ -54,20 +54,10 @@ RUN apt-get install -y \
     xserver-xorg-dev
 RUN curl -o /usr/local/bin/patchelf https://s3-us-west-2.amazonaws.com/openai-sci-artifacts/manual-builds/patchelf_0.9_amd64.elf \
     && chmod +x /usr/local/bin/patchelf
-RUN echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/root/.mujoco/mjpro131/bin' >> /root/.zshrc
+RUN echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/root/.mujoco/mjpro150/bin' >> /root/.zshrc
 
-# Additional setup for Tecnets
+# install python libraries
 COPY setups/ /root/setups/
-WORKDIR /root/setups/
-RUN source /root/.zshrc && \
-    pip install -r requirements.txt
-
-WORKDIR /root/workspace
-RUN git clone https://github.com/TMats/gym.git
-WORKDIR /root/workspace/gym
-RUN git checkout mil-improved && \
-    source /root/.zshrc && \
-    pip install -e '.[mujoco]'
 
 WORKDIR /root
 CMD ["zsh"]
