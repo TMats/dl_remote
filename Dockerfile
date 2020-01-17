@@ -24,8 +24,8 @@ RUN curl https://pyenv.run | zsh && \
     echo 'eval "$(pyenv init -)"' >> /root/.zshrc && \
     echo 'eval "$(pyenv virtualenv-init -)"' >> /root/.zshrc
 RUN source /root/.zshrc && \
-    pyenv install 3.7.4 && \
-    pyenv global 3.7.4
+    pyenv install 3.6.9 && \
+    pyenv global 3.6.9
 
 # X window, options ----------------
 RUN apt-get install -y vim xvfb x11vnc python-opengl
@@ -37,7 +37,7 @@ RUN source /root/.zshrc && \
 RUN apt-get install -y icewm
 
 # mujoco
-RUN apt-get install -y \
+RUN apt-get update && apt-get install -y \
     curl \
     git \
     libgl1-mesa-dev \
