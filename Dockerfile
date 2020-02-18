@@ -4,7 +4,7 @@
 # [1] https://github.com/robbyrussell/oh-my-zsh
 # [2] https://github.com/pyenv/pyenv/wiki/common-build-problems
 
-FROM nvidia/cudagl:9.2-devel-ubuntu18.04
+FROM nvidia/cudagl:10.0-devel-ubuntu18.04
 ENV DEBIAN_FRONTEND=noninteractive
 
 # zsh,[1] ----------------
@@ -30,7 +30,34 @@ RUN source /root/.zshrc && \
 # X window, options ----------------
 RUN apt-get install -y vim xvfb x11vnc python-opengl
 RUN source /root/.zshrc && \
+    pip install --upgrade pip && \
     pip install setuptools jupyterlab
+
+# icewm
+RUN apt-get install -y icewm
+
+# mujoco
+RUN apt-get install -y \
+    curl \
+    git \
+    libgl1-mesa-dev \
+    libgl1-mesa-glx \
+    libglew-dev \
+    libosmesa6-dev \
+    software-properties-common \
+    net-tools \
+    unzip \
+    vim \
+    virtualenv \
+    wget \
+    xpra \
+    xserver-xorg-dev
+RUN curl -o /usr/local/bin/patchelf https://s3-us-west-2.amazonaws.com/openai-sci-artifacts/manual-builds/patchelf_0.9_amd64.elf \
+    && chmod +x /usr/local/bin/patchelf
+RUN echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/root/.mujoco/mjpro150/bin' >> /root/.zshrc
+
+# install python libraries
+COPY setups/ /root/setups/
 
 WORKDIR /root
 CMD ["zsh"]
