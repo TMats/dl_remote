@@ -4,7 +4,7 @@
 # [1] https://github.com/robbyrussell/oh-my-zsh
 # [2] https://github.com/pyenv/pyenv/wiki/common-build-problems
 
-FROM nvidia/cudagl:10.0-devel-ubuntu18.04
+FROM nvidia/opengl:1.0-glvnd-devel-ubuntu18.04
 ENV DEBIAN_FRONTEND=noninteractive
 
 # zsh,[1] ----------------
