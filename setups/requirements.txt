@@ -20,7 +20,7 @@ google-auth==1.10.0
 google-auth-oauthlib==0.4.1
 google-pasta==0.1.8
 grpcio==1.26.0
-gym==0.7.4
+# gym==0.7.4
 h5py==2.10.0
 idna==2.8
 imageio==2.6.1
@@ -45,7 +45,7 @@ MarkupSafe==1.1.1
 mistune==0.8.4
 more-itertools==8.0.2
 moviepy==1.0.1
-mujoco-py==0.5.7
+mujoco-py==1.50.1.68
 nbconvert==5.6.1
 nbformat==4.4.0
 notebook==6.0.2
